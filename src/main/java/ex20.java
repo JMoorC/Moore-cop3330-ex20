@@ -17,13 +17,16 @@ public class ex20 {
 
         System.out.print("What is the order amount? ");
         double inAmount = roundWholeCent(inScan.nextDouble());
+        double subtotal =inAmount;
+        double tax;
+        boolean giveSub = false;
+
         System.out.print("What is the state? ");
         String state = inScan.next().toLowerCase();
-
         if (state.equals("wi") || state.equals("wisconsin")){
+
             System.out.print("What is your county? ");
             String county = inScan.next().toLowerCase();
-            System.out.printf("The subtotal is $%.2f.\n", inAmount);
             double apTax = WITAX;
             if (county.equals("dunn") ){
                 apTax += DUTAX;
@@ -31,23 +34,27 @@ public class ex20 {
             else if (county.equals("eau") ){
                 apTax += ECTAX;
             }
-            double tax = roundWholeCent(inAmount * apTax);
-            System.out.printf("The tax is $%.2f.\n", tax);
+            tax = roundWholeCent(inAmount * apTax);
             inAmount += tax;
+            giveSub = true;
         }
         else if (state.equals("il") || state.equals("illinois") ){
-            System.out.printf("The subtotal is $%.2f.\n", inAmount);
-            double tax = roundWholeCent(inAmount * ILTAX);
-            System.out.printf("The tax is $%.2f.\n", tax);
+            tax = roundWholeCent(inAmount * ILTAX);
             inAmount += tax;
+            giveSub = true;
         }
 
-            System.out.printf("The total is $%.2f.", inAmount);
+        String answer = "";
+        if (giveSub){
+            answer = String.format("The subtotal is $%.2f.\n", subtotal);
+        }
+        answer = answer + String.format("The total is $%.2f", inAmount);
+        System.out.println(answer);
     }
 
     public static double roundWholeCent(double value){
         int hold = (int) (value * 1000000);
         return Math.ceil( (hold / 10000.0) ) / 100.0;
     }
-
+           // System.out.printf("The subtotal is $%.2f.\n", inAmount);
 }
